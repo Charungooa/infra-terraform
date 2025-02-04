@@ -11,12 +11,16 @@ terraform {
 }
 
 
+terraform {
+  backend "azurerm" {
+    storage_account_name = "terraform2025dev"
+    container_name       = "terraform-state"
+    key                  = "terraform.tfstate"
+  }
+}
+
 provider "azurerm" {
   features {}
-  backend         = "azurerm"
-  storage_account_name = "terraform2025dev"
-  container_name       = "terraform-state"
-  key                  = "terraform.tfstate"
   client_id       = var.AZURE_CLIENT_ID
   client_secret   = var.AZURE_CLIENT_SECRET
   subscription_id = var.AZURE_SUBSCRIPTION_ID
