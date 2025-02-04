@@ -33,9 +33,8 @@ jobs:
     #     terraform apply -auto-approve
     # - name: Terraform Destroy
     #   run: terraform destroy -auto-approve
-
       env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          TF_VAR_AZURE_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_AZURE_CLIENT_SECRET:   ${{ secrets.AZURE_CLIENT_SECRET }}
+          TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_AZURE_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
