@@ -23,14 +23,14 @@ jobs:
       run: | 
         cd dev
         terraform init
-    - name: Terraform Plan
-      run:  |
-        cd dev
-        terraform plan
-    # - name: Terraform Apply
-    #   run: |
+    # - name: Terraform Plan
+    #   run:  |
     #     cd dev
-    #     terraform apply -auto-approve -input=false
+    #     terraform plan
+    - name: Terraform Apply
+      run: |
+        cd dev
+        terraform apply -auto-approve
     # - name: Terraform Destroy
     #   run: terraform destroy -auto-approve
       env:
