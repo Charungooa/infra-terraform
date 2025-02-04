@@ -1,1 +1,39 @@
+name: Dev-infrastructure-terraform
 
+on:
+#   push:
+#     branches:
+#       - dev
+#   pull_request:
+#     branches:
+#       - dev
+    workflow_dispatch:
+    
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.4.5
+    - name: Terraform Init
+      run: | 
+        cd infra-terraform/dev
+        Terraform init
+    # - name: Terraform Plan
+    #   run: terraform plan
+    - name: Terraform Apply
+      run: |
+        cd infra-terraform/dev
+        terraform apply -auto-approve
+    # - name: Terraform Destroy
+    #   run: terraform destroy -auto-approve
+
+      env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
