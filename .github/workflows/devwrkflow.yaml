@@ -13,28 +13,44 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.4.5
-    - name: Terraform Init
-      run: | 
-        cd dev
-        terraform init
-    # - name: Terraform Plan
-    #   run:  |
-    #     cd dev
-    #     terraform plan
-    - name: Terraform Apply
-      run: |
-        cd dev
-        terraform apply -auto-approve
-    # - name: Terraform Destroy
-    #   run: terraform destroy -auto-approve
-      env:
+
+      # Step 1: Check out your repository code
+      - name: "Checkout Code"
+        uses: actions/checkout@v2
+
+      # Step 2: Install Terraform
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v1
+
+      # Step 3: Initialize Terraform (with remote backend, if configured)
+      - name: "Terraform Init"
+        env:
           TF_VAR_AZURE_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
           TF_VAR_AZURE_CLIENT_SECRET:   ${{ secrets.AZURE_CLIENT_SECRET }}
           TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           TF_VAR_AZURE_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
+        run: |
+          cd dev
+          terraform init
+
+      # Step 4: Optional - Terraform Plan
+      # - name: "Terraform Plan"
+      #   env:
+      #     TF_VAR_AZURE_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
+      #     TF_VAR_AZURE_CLIENT_SECRET:   ${{ secrets.AZURE_CLIENT_SECRET }}
+      #     TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #     TF_VAR_AZURE_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
+      #   run: |
+      #     cd dev
+      #     terraform plan -input=false
+
+      # Step 5: Apply changes automatically
+      - name: "Terraform Apply"
+        env:
+          TF_VAR_AZURE_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_AZURE_CLIENT_SECRET:   ${{ secrets.AZURE_CLIENT_SECRET }}
+          TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_AZURE_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
+        run: |
+          cd dev
+          terraform apply -auto-approve
