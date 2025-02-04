@@ -22,7 +22,7 @@ jobs:
     - name: Terraform Init
       run: | 
         cd dev
-        Terraform init
+        terraform init
     - name: Terraform Plan
       run:  |
         cd dev
