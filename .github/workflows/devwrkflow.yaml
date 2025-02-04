@@ -1,18 +1,11 @@
 name: Dev-infrastructure-terraform
 
 on:
-#   push:
-#     branches:
-#       - dev
-#   pull_request:
-#     branches:
-#       - dev
-    workflow_dispatch:
-    
+  workflow_dispatch:
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
-
     steps:
       # Step 1: Check out your code
       - name: Checkout
@@ -30,18 +23,33 @@ jobs:
 
       # Step 4: Terraform Init
       - name: Terraform Init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         run: |
           cd dev
           terraform init
 
       # Step 5: Terraform Plan
-      - name: Terraform Plan
-        run: |
-          cd dev
-          terraform plan
+      # - name: Terraform Plan
+      #   env:
+      #     ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #     ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #   run: |
+      #     cd dev
+      #     terraform plan
 
       # Step 6: Terraform Apply
       - name: Terraform Apply
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         run: |
           cd dev
           terraform apply -auto-approve
