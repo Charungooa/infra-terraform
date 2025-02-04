@@ -21,13 +21,13 @@ jobs:
         terraform_version: 1.4.5
     - name: Terraform Init
       run: | 
-        cd infra-terraform/dev
+        cd dev
         Terraform init
     # - name: Terraform Plan
     #   run: terraform plan
     - name: Terraform Apply
       run: |
-        cd infra-terraform/dev
+        cd dev
         terraform apply -auto-approve
     # - name: Terraform Destroy
     #   run: terraform destroy -auto-approve
